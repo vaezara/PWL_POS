@@ -12,5 +12,5 @@ class LevelModel extends Model
     protected $table = 'm_level'; 
     protected $primaryKey = 'level_id';
 
-    protected $fillable = ['m_level'];
+    protected $fillable = ['nama_level'];
 }
