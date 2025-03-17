@@ -97,8 +97,7 @@ class BarangController extends Controller
     // Menampilkan detail barang
     public function show(string $id)
     {
-        $barang = BarangModel::find($id);
-
+        $barang = BarangModel::find($id); 
         if (!$barang) {
             return redirect('/barang')->with('error', 'Data barang tidak ditemukan');
         }
