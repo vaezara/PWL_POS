@@ -43,7 +43,7 @@
     databackdrop="static" data-keyboard="false" data-width="75%" aria-hidden="true"></div>
 @endsection
 
-@push('css')
+@push('css') 
 @endpush
 
 @push('js')
