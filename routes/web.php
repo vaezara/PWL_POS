@@ -20,7 +20,7 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
 
     Route::get('/', [WelcomeController::class, 'index']);
 
-    Route::middleware(['authorize:ADM'])->group(function() {
+    Route::middleware(['authorize:ADM,MNG'])->group(function() {
         Route::get('/level',[LevelController::class,'index']);
         Route::post('/level/list',[LevelController::class,'list']); // untuk list json datatables
         Route::get('/level/create',[LevelController::class,'create']);
