@@ -59,6 +59,7 @@
                         <!-- /.col -->
                     </div>
                 </form>
+                <p class="mt-3">Belum punya akun? <a href="{{ url('/register') }}">Daftar disini</a></p>
             </div>
             <!-- /.card-body -->
         </div>
@@ -76,6 +77,7 @@
     <link rel="stylesheet" href="{{ url('adminlte/plugins/sweetalert2-theme-bootstrap-4/bootstrap4.min.css') }}">
     <!-- AdminLTE App -->
     <script src="{{ asset('adminlte/dist/js/adminlte.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $.ajaxSetup({
             headers: {
@@ -129,6 +131,59 @@
                     $(element).removeClass('is-invalid');
                 }
             });
+        });
+
+        $("#form-tambah").validate({
+            rules: {
+                level_id: { required: true, number: true },
+                username: { required: true, minlength: 3, maxlength: 20 },
+                nama: { required: true, minlength: 3, maxlength: 100 },
+                password: { required: true, minlength: 4, maxlength: 20 }
+            },
+            submitHandler: function (form) {
+                let $btnSubmit = $(form).find('button[type="submit"]');
+                $btnSubmit.prop('disabled', true).text('Processing...');
+
+                $.ajax({
+                    url: form.action,
+                    type: form.method,
+                    data: $(form).serialize(),
+                    dataType: "json",
+                    success: function (response) {
+                        if (response.status) {
+                            $('#modal-crud').modal('hide');
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Registrasi Berhasil',
+                                text: response.message
+                            }).then(() => {
+                                window.location.href = "{{ url('login') }}";
+                            });
+                        } else {
+                            $('.error-text').text('');
+                            $.each(response.msgField, function (prefix, val) {
+                                $('#error-' + prefix).text(val[0]);
+                            });
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Registrasi Gagal',
+                                text: response.message
+                            });
+                        }
+                    },
+                    error: function (xhr) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Kesalahan Server',
+                            text: 'Terjadi kesalahan saat menghubungi server. Coba lagi nanti.',
+                        });
+                    },
+                    complete: function () {
+                        $btnSubmit.prop('disabled', false).text('Simpan');
+                    }
+                });
+                return false;
+            }
         });
     </script>
 </body>
