@@ -8,6 +8,7 @@ use App\Http\Controllers\BarangController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -22,6 +23,9 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
     // masukkan semua route yang perlu autentikasi di sini
 
     Route::get('/', [WelcomeController::class, 'index']);
+
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::post('/profile/update-foto', [ProfileController::class, 'updateFoto'])->name('profile.updateFoto');
 
     Route::middleware(['authorize:ADM,MNG'])->group(function() {
         Route::get('/level', [LevelController::class, 'index']);
