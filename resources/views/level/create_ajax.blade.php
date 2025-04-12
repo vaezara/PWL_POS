@@ -1,4 +1,4 @@
-<form action="{{ url('/level/ajax') }}" method="POST" id="form-tambah">
+<form action="{{ url('/level_ajax') }}" method="POST" id="form-tambah">
     @csrf
     <div class="modal-dialog">
         <div class="modal-content">
@@ -7,24 +7,24 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <form id="form-create-ajax" action="{{ url('/level/store_ajax') }}" method="POST">
-                    @csrf
-                    <div class="form-group">
-                        <label>Kode Level</label>
-                        <input type="text" name="level_kode" id="level_kode" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Nama Level</label>
-                        <input type="text" name="level_nama" id="level_nama" class="form-control" required>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" data-dismiss="modal" class="btn btn-warning">Batal</button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
-                    </div>
-                </form>
+                <div class="form-group">
+                    <label>Kode Level</label>
+                    <input type="text" name="level_kode" id="level_kode" class="form-control" required>
+                    <small id="error-level_kode" class="error-text form-text text-danger"></small>
+                </div>
+                <div class="form-group">
+                    <label>Nama Level</label>
+                    <input type="text" name="level_nama" id="level_nama" class="form-control" required>
+                    <small id="error-level_nama" class="error-text form-text text-danger"></small>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-warning">Batal</button>
+                <button type="submit" class="btn btn-primary">Simpan</button>
             </div>
         </div>
-    </div>    
+    </div>
+</form>
 <script>
     $(document).ready(function() {
         $("#form-tambah").validate({

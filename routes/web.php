@@ -32,6 +32,7 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
         Route::post('/level/list', [LevelController::class, 'list']);
         Route::get('/level/create_ajax', [LevelController::class, 'create_ajax']); // ajax form create
         Route::post('/level_ajax', [LevelController::class, 'store_ajax']); // ajax store
+        Route::get('/level/{id}/detail_ajax', [LevelController::class, 'detail_ajax']);
         Route::get('/level/{id}/edit_ajax', [LevelController::class, 'edit_ajax']); // ajax form edit
         Route::put('/level/{id}/update_ajax', [LevelController::class, 'update_ajax']); // ajax update
         Route::get('/level/{id}/delete_ajax', [LevelController::class, 'confirm_ajax']); // ajax form confirm
@@ -47,6 +48,7 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
         Route::post('/kategori/list', [KategoriController::class, 'list']);
         Route::get('/kategori/create_ajax', [KategoriController::class, 'create_ajax']); // ajax form create
         Route::post('/kategori_ajax', [KategoriController::class, 'store_ajax']); // ajax store
+        Route::get('/kategori/{id}/detail_ajax', [KategoriController::class, 'detail_ajax']);
         Route::get('/kategori/{id}/edit_ajax', [KategoriController::class, 'edit_ajax']); // ajax form edit
         Route::put('/kategori/{id}/update_ajax', [KategoriController::class, 'update_ajax']); // ajax update
         Route::get('/kategori/{id}/delete_ajax', [KategoriController::class, 'confirm_ajax']); // ajax form confirm
@@ -60,6 +62,7 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
         Route::post('/barang/list', [BarangController::class, 'list']);
         Route::get('/barang/create_ajax', [BarangController::class, 'create_ajax']); // ajax form create
         Route::post('/barang_ajax', [BarangController::class, 'store_ajax']); // ajax store
+        Route::get('/barang/{id}/detail_ajax', [BarangController::class, 'detail_ajax']);
         Route::get('/barang/{id}/edit_ajax', [BarangController::class, 'edit_ajax']); // ajax form edit
         Route::put('/barang/{id}/update_ajax', [BarangController::class, 'update_ajax']); // ajax update
         Route::get('/barang/{id}/delete_ajax', [BarangController::class, 'confirm_ajax']); // ajax form confirm
@@ -75,6 +78,7 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
         Route::post('/supplier/list', [SupplierController::class, 'list']);
         Route::get('/supplier/create_ajax', [SupplierController::class, 'create_ajax']); // ajax form create
         Route::post('/supplier_ajax', [SupplierController::class, 'store_ajax']); // ajax store
+        Route::get('/supplier/{id}/detail_ajax', [SupplierController::class, 'detail_ajax']);
         Route::get('/supplier/{id}/edit_ajax', [SupplierController::class, 'edit_ajax']); // ajax form edit
         Route::put('/supplier/{id}/update_ajax', [SupplierController::class, 'update_ajax']); // ajax update
         Route::get('/supplier/{id}/delete_ajax', [SupplierController::class, 'confirm_ajax']); // ajax form confirm
@@ -92,10 +96,9 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
         Route::post('/', [UserController::class, 'store']);
         Route::get('/create_ajax', [UserController::class, 'create_ajax']);
         Route::post('/ajax', [UserController::class, 'store_ajax']);
-        Route::get('/{id}', [UserController::class, 'show'])->name('user.show');
-        Route::get('/{id}/show_ajax', [UserController::class, 'show_ajax']);
         Route::get('/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
         Route::put('/{id}', [UserController::class, 'update']);
+        Route::get('/{id}/detail_ajax', [UserController::class, 'detail_ajax']);
         Route::get('/{id}/edit_ajax', [UserController::class, 'edit_ajax']);
         Route::put('/{id}/update_ajax', [UserController::class, 'update_ajax']);
         Route::get('/{id}/delete_ajax', [UserController::class, 'confirm_ajax']);

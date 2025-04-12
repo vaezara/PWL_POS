@@ -1,4 +1,4 @@
-<form action="{{ url('/kategori/ajax') }}" method="POST" id="form-tambah">
+<form action="{{ url('/kategori_ajax') }}" method="POST" id="form-tambah">
     @csrf
     <div class="modal-dialog">
         <div class="modal-content">

@@ -19,15 +19,23 @@ class SupplierController extends Controller
             'list' => ['Home', 'Supplier']
         ];
 
+        $activeMenu = 'supplier';
+        $supplier = SupplierModel::all();
+
         return view('supplier.index', [
             'activeMenu' => $activeMenu,
-            'breadcrumb' => $breadcrumb
+            'breadcrumb' => $breadcrumb,
+            'supplier' => $supplier
         ]);
     }
 
     public function list(Request $request)
-    {
+    {   
+        $status = $request->input('status');
         $supplier = SupplierModel::select('supplier_id', 'nama', 'alamat', 'telp', 'email', 'status');
+        if ($status !== null && $status !== '') {
+            $supplier->where('status', $status);
+        }
         return DataTables::of($supplier)
             ->addIndexColumn()
             ->addColumn('aksi', function ($supplier) {
@@ -38,6 +46,29 @@ class SupplierController extends Controller
             })
             ->rawColumns(['aksi'])
             ->make(true);
+    }
+
+    public function detail_ajax(string $id)
+    {
+        $breadcrumb = (object) [
+            'title' => 'Detail Supplier',
+            'list' => ['Home', 'Supplier', 'Detail']
+        ];
+
+        $page = (object) [
+            'title' => 'Detail Supplier'
+        ];
+
+        $activeMenu = 'supplier';
+
+        $supplier = SupplierModel::find($id); 
+
+        return view('supplier.show', [
+            'breadcrumb' => $breadcrumb,
+            'page' => $page,
+            'activeMenu' => $activeMenu,
+            'supplier' => $supplier 
+        ]);
     }
 
     public function create_ajax()

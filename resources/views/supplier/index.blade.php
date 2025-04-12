@@ -2,7 +2,7 @@
 @section('content')
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Daftar supplier</h3>
+            <h3 class="card-title">Daftar Supplier</h3>
             <div class="card-tools">
                 <button onclick="modalAction('{{ url('/supplier/import') }}')" class="btn btn-info">Import Supplier</button>
                 <a href="{{ url('/supplier/export_excel') }}" class="btn btn-primary"><i class="fa fa-fileexcel"></i> Export Supplier</a>
@@ -11,6 +11,21 @@
             </div>
         </div>
         <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group row">
+                        <label class="col-1 control-label col-form-label">Filter:</label>
+                        <div class="col-3">
+                            <select class="form-control" id="status" name="status" required>
+                                    <option value="">- Semua -</option>
+                                    <option value="aktif">aktif</option>
+                                    <option value="nonaktif">nonaktif</option>                            
+                            </select>
+                            <small class="form-text text-muted">Status Supplier</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
             @if(session('success'))
                 <div class="alert alert-success">{{ session('success') }}</div>
             @endif
@@ -51,7 +66,11 @@
                 ajax: {
                     "url": "{{ url('supplier/list') }}",
                     "dataType": "json",
-                    "type": "POST"
+                    "type": "POST",
+                    "data": function (d) {
+                        d._token = '{{ csrf_token() }}'; // Tambahkan CSRF token
+                        d.status = $('#status').val(); 
+                    }
                 }, 
                 columns: [{
                     data: "DT_RowIndex",
@@ -92,10 +111,9 @@
                     searchable: false
                 }]
             });
-            $('#table-supplier_filter input').unbind().bind().on('keyup', function(e){
-                if(e.keyCode == 13){
-                    tableSupplier.search(this.value).draw();
-                }
+            
+            $('#status').on('change', function() {
+                tableSupplier.ajax.reload();
             });
         });
     </script>

@@ -19,15 +19,22 @@ class KategoriController extends Controller
             'list' => ['Home', 'Kategori']
         ];
 
+        $activeMenu = 'kategori';
+        $kategori = KategoriModel::all();
+
         return view('kategori.index', [
             'activeMenu' => $activeMenu,
-            'breadcrumb' => $breadcrumb
+            'breadcrumb' => $breadcrumb,
+            'kategori' => $kategori
         ]);
     }
 
     public function list(Request $request)
     {
         $kategori = KategoriModel::select('kategori_id', 'kategori_kode', 'kategori_nama');
+        if ($request->has('kategori_id') && $request->kategori_id != '') {
+            $kategori->where('kategori_id', $request->kategori_id);
+        }
 
         return DataTables::of($kategori)
             ->addIndexColumn()
@@ -39,6 +46,29 @@ class KategoriController extends Controller
             })
             ->rawColumns(['aksi'])
             ->make(true);
+    }
+
+    public function detail_ajax(string $id)
+    {
+        $breadcrumb = (object) [
+            'title' => 'Detail Kategori',
+            'list' => ['Home', 'Level', 'Detail']
+        ];
+
+        $page = (object) [
+            'title' => 'Detail Kategori'
+        ];
+
+        $activeMenu = 'kategori';
+
+        $kategori = KategoriModel::find($id); 
+
+        return view('kategori.show', [
+            'breadcrumb' => $breadcrumb,
+            'page' => $page,
+            'activeMenu' => $activeMenu,
+            'kategori' => $kategori 
+        ]);
     }
 
     public function create_ajax()

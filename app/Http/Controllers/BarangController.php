@@ -15,28 +15,35 @@ class BarangController extends Controller
 {
     public function index()
     {
-        $activeMenu = 'barang';
         $breadcrumb = (object)[
             'title' => 'Data Barang',
             'list' => ['Home', 'Barang']
         ];
+
+        $page = (object) [
+            'title' => 'Daftar barang yang terdaftar dalam sistem'
+        ];
+
+        $activeMenu = 'barang';
+        $kategori = KategoriModel::all();
         
-        $kategori = KategoriModel::select('kategori_id', 'kategori_nama')->get();
         return view('barang.index', [
             'activeMenu' => $activeMenu,
             'breadcrumb' => $breadcrumb,
+            'page' => $page,
             'kategori' => $kategori
         ]);
     }
 
     public function list(Request $request)
-    {
+    {   
         $barang = BarangModel::select('barang_id', 'barang_kode', 'barang_nama',
             'harga_beli', 'harga_jual', 'kategori_id')->with('kategori');
-        $kategori_id = $request->input('filter_kategori');
-        if (!empty($kategori_id)) {
-            $barang->where('kategori_id', $kategori_id);
+    
+        if ($request->kategori_id) {
+            $barang->where('kategori_id', $request->kategori_id);
         }
+
         return DataTables::of($barang)
             ->addIndexColumn()
             ->addColumn('aksi', function ($barang) { // menambahkan kolom aksi
@@ -49,10 +56,34 @@ class BarangController extends Controller
             ->make(true);
     }
 
-    public function create_ajax()
+    public function detail_ajax(string $id)
     {
+        $breadcrumb = (object) [
+            'title' => 'Detail Barang',
+            'list' => ['Home', 'Barang', 'Detail']
+        ];
+
+        $page = (object) [
+            'title' => 'Detail Barang'
+        ];
+
+        $activeMenu = 'barang';
+
+        $barang = BarangModel::find($id); 
+
+        return view('barang.show', [
+            'breadcrumb' => $breadcrumb,
+            'page' => $page,
+            'activeMenu' => $activeMenu,
+            'barang' => $barang 
+        ]);
+    }
+
+    public function create_ajax() {
         $kategori = KategoriModel::select('kategori_id', 'kategori_nama')->get();
-        return view('barang.create_ajax')->with('kategori', $kategori);
+
+        return view('barang.create_ajax')
+                    ->with('kategori', $kategori);
     }
 
     public function store_ajax(Request $request)
@@ -85,8 +116,8 @@ class BarangController extends Controller
     public function edit_ajax($id)
     {
         $barang = BarangModel::find($id);
-        $level = LevelModel::select('level_id', 'level_nama')->get();
-        return view('barang.edit_ajax', ['barang' => $barang, 'level' => $level]);
+        $kategori = KategoriModel::select('kategori_id', 'kategori_nama')->get();
+        return view('barang.edit_ajax', ['barang' => $barang, 'kategori' => $kategori]);
     }
 
     public function update_ajax(Request $request, $id)

@@ -1,4 +1,4 @@
-<form action="{{ url('/barang/ajax') }}" method="POST" id="form-tambah">
+<form action="{{ url('/barang_ajax') }}" method="POST" id="form-tambah">
     @csrf
 
     <div id="modal-master" class="modal-dialog modal-lg" role="document">
@@ -17,7 +17,7 @@
                         @foreach($kategori as $k)
                             <option value="{{ $k->kategori_id }}">{{ $k->kategori_nama }}</option>
                         @endforeach
-                    </select>
+                    </select>                    
                     <small id="error-kategori_id" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">

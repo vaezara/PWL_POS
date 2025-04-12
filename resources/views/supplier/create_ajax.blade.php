@@ -1,4 +1,4 @@
-<form action="{{ url('/supplier/ajax') }}" method="POST" id="form-tambah">
+<form action="{{ url('/supplier_ajax') }}" method="POST" id="form-tambah">
     @csrf
     <div class="modal-dialog">
         <div class="modal-content">

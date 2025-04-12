@@ -18,15 +18,23 @@ class LevelController extends Controller
             'title' => 'Data Level',
             'list' => ['Home', 'Level']
         ];
+
+        $activeMenu = 'level';
+        $level = LevelModel::all();
+
         return view('level.index', [
             'activeMenu' => $activeMenu,
-            'breadcrumb' => $breadcrumb
+            'breadcrumb' => $breadcrumb,
+            'level' => $level
         ]);
     }
 
     public function list(Request $request)
     {
         $level = LevelModel::select('level_id', 'level_kode', 'level_nama');
+        if ($request->has('level_id') && $request->level_id != '') {
+            $level->where('level_id', $request->level_id);
+        }
         return DataTables::of($level)
             ->addIndexColumn()
             ->addColumn('aksi', function ($level) {
@@ -37,6 +45,29 @@ class LevelController extends Controller
             })
             ->rawColumns(['aksi'])
             ->make(true);
+    }
+
+    public function detail_ajax(string $id)
+    {
+        $breadcrumb = (object) [
+            'title' => 'Detail Level',
+            'list' => ['Home', 'Level', 'Detail']
+        ];
+
+        $page = (object) [
+            'title' => 'Detail Level'
+        ];
+
+        $activeMenu = 'level';
+
+        $level = LevelModel::find($id); 
+
+        return view('level.show', [
+            'breadcrumb' => $breadcrumb,
+            'page' => $page,
+            'activeMenu' => $activeMenu,
+            'level' => $level 
+        ]);
     }
 
     public function create_ajax()
