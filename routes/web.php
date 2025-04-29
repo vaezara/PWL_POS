@@ -25,7 +25,7 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
     Route::get('/', [WelcomeController::class, 'index']);
 
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
-    Route::post('/profile/update-foto', [ProfileController::class, 'updateFoto'])->name('profile.updateFoto');
+    Route::post('/profile/updateFoto', [ProfileController::class, 'updateFoto'])->name('profile.updateFoto');
 
     Route::middleware(['authorize:ADM,MNG'])->group(function() {
         Route::get('/level', [LevelController::class, 'index']);
